@@ -11,7 +11,7 @@ import SwiftUI
 struct App1App: App {
     var body: some Scene {
         WindowGroup {
-            HomeScreen().background(Color.white)
+            HomeScreen()
         }
     }
 }

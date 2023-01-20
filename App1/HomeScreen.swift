@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeScreen: View {
     
-    @State private var label = "Muhammad Ali's happines factors"
+    @State private var label = "Happines factors"
     
     @State private var factorOneLabel = "HEALTH"
     @State private var factorOneScore = 10.0
@@ -120,7 +120,7 @@ struct HomeScreen: View {
                         }
                     }
                     VStack {
-                        Text("         ")
+                        Text("          ")
                     }
                     VStack {
                         ForEach(0..<factorTwoLabel.count, id: \.self) { index in
@@ -128,7 +128,7 @@ struct HomeScreen: View {
                         }
                     }
                     VStack {
-                        Text("         ")
+                        Text("          ")
                     }
                     VStack {
                         ForEach(0..<factorThreeLabel.count, id: \.self) { index in
@@ -136,7 +136,7 @@ struct HomeScreen: View {
                         }
                     }
                     VStack {
-                        Text("         ")
+                        Text("          ")
                     }
                     VStack {
                         ForEach(0..<factorFourLabel.count, id: \.self) { index in
@@ -144,7 +144,7 @@ struct HomeScreen: View {
                         }
                     }
                     VStack {
-                        Text("         ")
+                        Text("          ")
                     }
                     VStack {
                         ForEach(0..<factorFiveLabel.count, id: \.self) { index in
@@ -157,13 +157,17 @@ struct HomeScreen: View {
                 
                 Button("⚙️") {
                     showingSheet.toggle()
-                }.sheet(isPresented: $showingSheet) {
+                }.sheet(isPresented: $showingSheet, onDismiss: {
+                    load()
+                }) {
                     SheetScreen()
                 }
             }
         }
         .padding()
         .onAppear(perform: load)
+        .statusBarHidden()
+        .background(.white)
     }
     
     func load() {
@@ -268,27 +272,53 @@ struct SheetScreen: View {
                 }
                 
                 Spacer()
-                Button("❌") {
-                    save()
-                    dismiss()
-                }            
+                
+                HStack {
+                    Spacer()
+                    Button("Cancel") {
+                        dismiss()
+                    } 
+                    Spacer()
+                    Button("Clear") {
+                        title = ""
+                        factorOneLabel = ""
+                        factorOneScore = 0.0              
+                        factorTwoLabel = ""
+                        factorTwoScore = 0.0
+                        factorThreeLabel = ""
+                        factorThreeScore = 0.0
+                        factorFourLabel = ""
+                        factorFourScore = 0.0
+                        factorFiveLabel = ""
+                        factorFiveScore = 0.0
+                    }
+                    Spacer()
+                    Button("Save") {
+                        save()
+                        dismiss()
+                    }
+                    Spacer()
+                }
             }
         }
         .padding()
         .onAppear(perform: load)
+        .statusBarHidden()
+        .background(.white)
+        .foregroundColor(.blue)
     }
     
     func save() {
         MyUserDefaults.title = title
-        MyUserDefaults.factorOneLabel = factorOneLabel
+        MyUserDefaults.factorOneLabel = factorOneLabel.uppercased()
         MyUserDefaults.factorOneScore = factorOneScore
-        MyUserDefaults.factorTwoLabel = factorTwoLabel
+        MyUserDefaults.factorTwoLabel = factorTwoLabel.uppercased()
         MyUserDefaults.factorTwoScore = factorTwoScore
-        MyUserDefaults.factorThreeLabel = factorThreeLabel
+        MyUserDefaults.factorThreeLabel = factorThreeLabel.uppercased()
         MyUserDefaults.factorThreeScore = factorThreeScore
-        MyUserDefaults.factorFourLabel = factorFourLabel
+        MyUserDefaults.factorFourLabel = factorFourLabel.uppercased()
         MyUserDefaults.factorFourScore = factorFourScore
-        MyUserDefaults.factorFiveLabel = factorFiveLabel
+        MyUserDefaults.factorFiveLabel = factorFiveLabel.uppercased()
         MyUserDefaults.factorFiveScore = factorFiveScore
     }
     
